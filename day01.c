@@ -19,5 +19,4 @@ int main(void){
     }
     printf("%llu %llu\n",part1,part2);
     return 0;
-
 }
