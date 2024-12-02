@@ -2,7 +2,7 @@
 int remap(int i,int skip){return i>=skip?i+1:i;}
 
 int main(void){
-    int part1=0, part2=0; char line[100]; int L[10];
+    int part1=0, part2=0; char line[100]; int L[8];
     FILE *f=fopen("data/input02.txt","r");
     while(fgets(line,100,f)){
         int N=sscanf(line,"%d %d %d %d %d %d %d %d",L,L+1,L+2,L+3,L+4,L+5,L+6,L+7);
