@@ -19,5 +19,5 @@ int main(void){
             if(ok(skip)){part2++; break;}
         }
     }
-    printf("%d %d\n",part1,part2);
+    printf("%d %d\n",part1,part2); return 0;
 }
