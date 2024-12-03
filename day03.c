@@ -12,26 +12,41 @@ int num(int k, int *res){
 }
 
 int main(void){
-    int part1=0, part2=0;
+    int part1=0, part2=0, ok=1;
     FILE *f=fopen("data/input03.txt","r");
     while(fgets(E,5000,f)){
         i=0;
-        char a;
         int op1,op2;
         while(E[i]!='\0'){
-            if(E[i++]=='m')
-            if(E[i++]=='u')
-            if(E[i++]=='l')
-            if(E[i++]=='(')
-            if(num(i,&op1))
-            if(E[i++]==',')
-            if(num(i,&op2))
-            if(E[i++]==')')
-                part1+=op1*op2;
-            
+            switch(E[i++]){
+                case 'm':
+                    if(E[i++]=='u')
+                    if(E[i++]=='l')
+                    if(E[i++]=='(')
+                    if(num(i,&op1))
+                    if(E[i++]==',')
+                    if(num(i,&op2))
+                    if(E[i++]==')'){
+                        part1+=op1*op2;
+                        if(ok) part2+=op1*op2;
+                    }  
+                    break;
+                case 'd':
+                    if(E[i++]=='o'){
+                        switch(E[i++]){
+                            case '(':if(E[i++]==')') ok=1; break;
+                            case 'n':
+                                if(E[i++]=='\'')
+                                if(E[i++]=='t')
+                                if(E[i++]=='(')
+                                if(E[i++]==')')
+                                    ok=0;
+                                break;
+                        }
+                    }
+            }
         }
     }
-    
     printf("%d %d\n",part1,part2);
     return 0;
 }
