@@ -17,7 +17,6 @@ def firstBeforePos(voids,pos,sz):
     return ibest
 
 def solve(inp,ispart2):
-    inp+="9"
     res=0
     pos=0
     voids,blocks=[[] for k in range(10)],[]
