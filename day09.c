@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 
-typedef struct E{int pos; int size;} E;
+typedef struct {int pos; int size;} E;
 
 uint64_t arith(int start, int nb){return (2*start+nb-1)*nb/2;}
 int main(void){
