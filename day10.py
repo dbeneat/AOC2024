@@ -24,6 +24,5 @@ for y in range(H):
     for x in range(W):
         if L[y][x]==0:
             score,rating=grade(x,y,set(),{})
-            part1+=score
-            part2+=rating
+            part1+=score; part2+=rating
 print(part1,part2)
