@@ -9,7 +9,7 @@ int main(void){
     int W=0,H=0;
     int part1=0,part2=0;
     while(fgets(line,100,f) && line[0]!='\n'){
-        W=0; while(line[W]!='\n'){
+        W=0; while(line[W]!='\n' && line[W]!='\0'){
             if(line[W]!='.'){
                 ant[nant][0]=line[W];
                 ant[nant][1]=W;
