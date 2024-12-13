@@ -15,8 +15,8 @@ Advent of Code 2024
        *^o^*^^*o*****o*^o* 
       ^*o**o*^^***^****^***
  
-    Total time for days 1..11:
-    Python........................ 2.984 s
-    Lua........................... 9.075 s
-    C (including compilation)..... 3.061 s
-    C (execution only)............ 1.035 s
+    Total time for days 1..13:
+    Python........................ 3.298 s
+    Lua........................... 9.503 s
+    C (including compilation)..... 3.649 s
+    C (execution only)............ 1.174 s
