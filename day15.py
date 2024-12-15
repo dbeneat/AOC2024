@@ -2,13 +2,8 @@ with open("data/input15.txt") as f:
     A,B=f.read().strip().split("\n\n")
 A=A.split("\n")
 H,W=len(A),len(A[0])
-walls=set()
-boxes=set()
-px,py=0,0
 
-
-walls=set()
-boxes=set()
+walls,boxes=set(),set()
 px,py=0,0
 for y in range(H):
     for x in range(W):
@@ -40,69 +35,49 @@ for code in B:
         
 part1=sum(100*y+x for (x,y) in boxes)
 
-def canpush(x,y,dx,dy):
+def canpush(x,y,dx,dy,L):
     nx,ny=x+dx,y+dy
     if (nx,ny) in walls:
         return False
     if dx==1:
         if (nx,ny) not in boxes:
             return True
-        return canpush(nx+1,ny,dx,dy)
-
+        L.add((nx,ny))
+        return canpush(nx+1,ny,dx,dy,L)
     if dx==-1:
         if (nx-1,ny) not in boxes:
             return True
-        return canpush(nx-1,ny,dx,dy)
-    
+        L.add((nx-1,ny))
+        return canpush(nx-1,ny,dx,dy,L)
     else:
         if (nx,ny) not in boxes and (nx-1,ny) not in boxes:
             return True
-        if (nx,ny) in boxes: return canpush(nx,ny,dx,dy) and canpush(nx+1,ny,dx,dy)
-        if (nx-1,ny) in boxes: return canpush(nx,ny,dx,dy) and canpush(nx-1,ny,dx,dy)  
-
-            
+        if (nx,ny) in boxes: L.add((nx,ny)); return canpush(nx,ny,dx,dy,L) and canpush(nx+1,ny,dx,dy,L)
+        if (nx-1,ny) in boxes: L.add((nx-1,ny)); return canpush(nx,ny,dx,dy,L) and canpush(nx-1,ny,dx,dy,L)  
+ 
 def trypush(x,y,dx,dy):
-    nx,ny=x+dx,y+dy
-    if (nx,ny) in walls:
-        return False
-    if dx==1:
-        if (nx,ny) not in boxes:
-            return True
-        ok=trypush(nx+1,ny,dx,dy)
-        if ok: boxes.remove((nx,ny)); boxes.add((nx+1,ny)); return True
-        return False
-    if dx==-1:
-        if (nx-1,ny) not in boxes:
-            return True
-        ok=trypush(nx-1,ny,dx,dy)
-        if ok: boxes.remove((nx-1,ny)); boxes.add((nx-2,ny)); return True
-        return False
-    
-    else:
-        if (nx,ny) not in boxes and (nx-1,ny) not in boxes:
-            return True
-        ok1,ok2=False,False
-        if (nx,ny) in boxes: ok1= trypush(nx,ny,dx,dy) and trypush(nx+1,ny,dx,dy)
-        if (nx-1,ny) in boxes: ok2= trypush(nx-1,ny,dx,dy) and trypush(nx,ny,dx,dy)
-        if ok1:boxes.remove((nx,ny)); boxes.add((nx+dx,ny+dy)); return True
-        if ok2:boxes.remove((nx-1,ny)); boxes.add((nx-1+dx,ny+dy)); return True
-        return False
+    L=set()
+    if canpush(x,y,dx,dy,L):
+        M=[]
+        for (x,y) in L:
+            boxes.remove((x,y)); M.append((x+dx,y+dy))
+        for b in M:
+            boxes.add(b)
+        return True
+    return False
 
-walls=set()
-boxes=set()
+walls,boxes=set(),set()
 for y in range(H):
     for x in range(W):
         ch=A[y][x]
         if ch=="#": walls.add((2*x,y));walls.add((2*x+1,y))
         if ch=="O": boxes.add((2*x,y))
         if ch=="@": px,py=2*x,y
-
-
-for i,code in enumerate(B):
-        if code=="<" and canpush(px,py,-1,0): trypush(px,py,-1,0);px-=1
-        if code==">" and canpush(px,py,1,0):trypush(px,py,1,0);px+=1
-        if code=="^" and canpush(px,py,0,-1):trypush(px,py,0,-1);py-=1
-        if code=="v" and canpush(px,py,0,1):trypush(px,py,0,1);py+=1
+for code in B:
+        if code=="<" and trypush(px,py,-1,0):px-=1
+        if code==">" and trypush(px,py,1,0):px+=1
+        if code=="^" and trypush(px,py,0,-1):py-=1
+        if code=="v" and trypush(px,py,0,1):py+=1
         
 part2=sum(100*y+x for (x,y) in boxes)
 print(part1,part2)
