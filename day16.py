@@ -62,5 +62,4 @@ for h in ['L','R','U','D']:
         explore(ex,ey,h)
 
 part1,part2=best,sum(line.count("O") for line in G)
-
 print(part1,part2)
