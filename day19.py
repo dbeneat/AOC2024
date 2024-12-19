@@ -1,5 +1,3 @@
-from time import perf_counter
-tic=perf_counter()
 with open("data/input19.txt") as f:
     A,B=f.read().strip().split("\n\n")
 A,B=[x.strip() for x in A.split(",")],B.split()
@@ -19,5 +17,4 @@ def nbsolutions(pattern):
 S=[nbsolutions(x) for x in B]
 part1=sum(x!=0 for x in S)
 part2=sum(S)
-toc=perf_counter()
-print(part1,part2,toc-tic)
+print(part1,part2)
