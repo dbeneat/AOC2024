@@ -1,4 +1,5 @@
 from time import perf_counter
+from collections import Counter
 tic=perf_counter()
 with open("data/input22.txt") as f:
     L=[int(x) for x in f.read().split()]
@@ -12,59 +13,26 @@ def derive(secret):
     secret=secret%16777216
     return secret
 
-def nest(f,x,n):
+prices=Counter()
+part1=0
+for m in L:
     seen=set()
-    k=0
-    while k<n:
-        x=f(x)
-        if x not in seen:
-            seen.add(x)
-            k+=1
-    return x
+    k=5
+    a=m
+    b=derive(a)
+    c=derive(b)
+    d=derive(c)
+    e=derive(d)
+    while k<=2000:
+        d1,d2,d3,d4=b%10-a%10,c%10-b%10,d%10-c%10,e%10-d%10
+        if (d1,d2,d3,d4) not in seen:
+            prices[(d1,d2,d3,d4)]+=e%10
+            seen.add((d1,d2,d3,d4))
+        a,b,c,d=b,c,d,e
+        e=derive(d)
+        k+=1
+    part1+=e
 
-def nestList(f,x,n):
-    L=[(x,None)]
-    seen=set()
-    k=0
-    while k<n:
-        y=f(x)
-        if y not in seen:
-            seen.add(y)
-            L.append((y,y%10-x%10))
-            x=y
-            k+=1
-    return L
-
-def all4tuples(lst):
-    A=set()
-    n=len(lst)
-    for i in range(1,n-3):
-        u=(lst[i][1],lst[i+1][1],lst[i+2][1],lst[i+3][1])
-        if u not in A: A.add(u)
-    return A
-
-def buy(dic,towatch):
-    if towatch in dic:return dic[towatch]
-    return 0
-
-def getPrices(lst):
-    d={}
-    n=len(lst)
-    for i in range(1,n-3):
-        u=(lst[i][1],lst[i+1][1],lst[i+2][1],lst[i+3][1])
-        if u not in d: d[u]=lst[i+3][0]%10
-    return d    
-
-allPrices=[getPrices(nestList(derive,x,2000)) for x in L]
-tuples=set()
-for x in L:
-    tuples|=all4tuples(nestList(derive,x,2000))
-
-
-def F(towatch):
-    return sum([buy(dic,towatch) for dic in allPrices])
-
-part1=sum([nest(derive,x,2000) for x in L])
-part2=max(F(towatch) for towatch in tuples)
+part2=max(prices.values())
 toc=perf_counter()
 print(part1,part2,toc-tic)
