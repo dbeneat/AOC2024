@@ -17,19 +17,18 @@ prices=Counter()
 part1=0
 for m in L:
     seen=set()
-    k=5
+    k=4
     a=m
     b=derive(a)
     c=derive(b)
     d=derive(c)
-    e=derive(d)
     while k<=2000:
+        e=derive(d)
         d1,d2,d3,d4=b%10-a%10,c%10-b%10,d%10-c%10,e%10-d%10
         if (d1,d2,d3,d4) not in seen:
             prices[(d1,d2,d3,d4)]+=e%10
             seen.add((d1,d2,d3,d4))
         a,b,c,d=b,c,d,e
-        e=derive(d)
         k+=1
     part1+=e
 
