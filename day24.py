@@ -21,7 +21,6 @@ def interpret(letter,wires):
     return int(rep,2)
 
 def compute():
-    #print(gates)
     wires=start.copy()
     Q=[]
     for g in gates:
